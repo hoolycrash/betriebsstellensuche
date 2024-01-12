@@ -1,0 +1,28 @@
+{
+  "name": "Betriebsstellen",
+  "description": "Browsererweiterung für die Schnelle Suche nach Betriebsstellen der Deutschen Bahn.",
+  "version": "1.0",
+  "author": "Felix Nietzold",
+  "manifest_version": 3,
+  "icons": {
+    "48": "/icons/48.png",
+    "128": "/icons/128.png"
+  },
+  
+  "browser_specific_settings": {
+  "gecko": {
+    "id": "ril100@sbahnfahrer.de.cool",
+    "strict_min_version": "42.0"
+  }
+},
+  
+  "action": {
+  "default_popup": "ril.html",
+  "default_icon": {
+  "48": "icons/48.png",
+  "128": "icons/128.png"
+  }
+}
+}
+
+

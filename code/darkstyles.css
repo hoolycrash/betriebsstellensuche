@@ -1,0 +1,40 @@
+@media (prefers-color-scheme: dark) {
+	body {
+		background-color: #000;
+		color: #cecece;
+	}
+	
+	input {
+		background-color: #000;
+		border-color: #cecece;
+		color: #cecece;
+	}
+	
+	.box {
+		background-color: #252525;
+	}
+	
+	hr {
+		background-image: linear-gradient(to right, #434343, #616161, #434343);
+	}
+	
+	a {
+		color: #72a9ab;
+	}
+	
+	::-webkit-scrollbar {
+	  width: 10px;
+	}
+		
+	::-webkit-scrollbar-track {
+	  background: #2b2b2b; 
+	}
+	 
+	::-webkit-scrollbar-thumb {
+	  background: #3b3b3b; 
+	}
+	
+	::-webkit-scrollbar-thumb:hover {
+	  background: #000; 
+	}
+}
