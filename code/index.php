@@ -7,7 +7,7 @@
 	<link rel="stylesheet" href="darkstyles.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CSV Search</title>
+    <title>RIL100 Search</title>
 </head>
 <body>
 	
