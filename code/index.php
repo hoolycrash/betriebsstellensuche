@@ -5,9 +5,9 @@
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<link rel="stylesheet" href="styles.css">
 	<link rel="stylesheet" href="darkstyles.css">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CSV Search</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>RIL100 Search</title>
 </head>
 <body>
 	
@@ -18,22 +18,21 @@
 	    </form>
 	
 	    <?php
-	    // Funktion zum Durchsuchen der CSV-Datei
+	    // search csv
 	    function searchCSV($input) {
         $csvFile = 'data.csv';
 
         if (($handle = fopen($csvFile, 'r')) !== FALSE) {
-            // Zuerst nach Übereinstimmung mit RL100-Code suchen
+            // look for matching ril100 code
             while (($row = fgetcsv($handle, 1000, ';')) !== FALSE) {
-                // Überprüfe, ob der Suchbegriff genau mit dem RL100-Code übereinstimmt
                 if ($row[1] == $input) {
                     fclose($handle);
                     return $row;
                 }
             }
 
-            // Wenn keine genaue Übereinstimmung gefunden wurde, suche den Rest der CSV-Datei
-            fseek($handle, 0); // Zurücksetzen des Dateizeigers auf den Anfang der Datei
+            // if no matching ril100 code search all
+            fseek($handle, 0); 
             while (($row = fgetcsv($handle, 1000, ';')) !== FALSE) {
                 // Überprüfe, ob der Suchbegriff im RL100-Code oder RL100-Langname enthalten ist
                 if (stripos($row[1], $input) !== FALSE || stripos($row[2], $input) !== FALSE) {
@@ -44,18 +43,18 @@
             fclose($handle);
         }
 
-        return NULL; // Rückgabe, wenn kein Ergebnis gefunden wurde
+        return NULL; 
     }
 	
-	    // Überprüfe, ob ein Suchbegriff übergeben wurde
+	    // is there input
 	    if (isset($_GET['input'])) {
-	        $userInput = trim($_GET['input']); // Entferne Leerzeichen am Anfang und Ende des Eingabewerts
+	        $userInput = trim($_GET['input']);
 	        if (!empty($userInput)) {
 	            $result = searchCSV($userInput);
 	
-	            // Zeige individuelle Werte basierend auf dem Suchergebnis
+	           
 	            if ($result !== NULL) {
-	                // Beispiel: Gib den RL100-Code und den RL100-Langname aus
+	                //output
 	                echo '
 					<div class="box">
 						<b>RIL100-Code:</b> ' . $result[1] . '<hr>
@@ -63,7 +62,7 @@
 						<b>Typ:</b> ' . $result[4] . '<hr>
 						<b>Niederlassung:</b> ' . $result[10] . '
 					</div>';
-	                // Füge weitere Ausgaben hinzu, wie gewünscht
+	                
 					
 					
 	            } else {
@@ -78,38 +77,38 @@
 	    }
 	
 		
-		// Die Station, die du übergeben hast
+		// look up hafas station
 				
 				$stationinput = $result[3];
-				// Die URL für die Datenabfrage
+				// url to hafas station blabla
 				$url = "https://v6.db.transport.rest/stations?query=" . urlencode($stationinput);
 				
-				// cURL verwenden, um die Daten abzurufen
+				// curl the server
 				$ch = curl_init($url);
 				curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 				$response = curl_exec($ch);
 				
-				// Überprüfen, ob es einen Fehler beim Abrufen der Daten gab
+				// is error?
 				if (curl_errno($ch)) {
 				    die("Can't load data: " . curl_error($ch));
 				}
 				
-				// Die JSON-Daten in ein assoziatives Array konvertieren
+				// json data convert
 				$data = json_decode($response, true);
 				
-				// Überprüfen, ob die Daten gültig sind
+				// valid?
 				if ($data === null) {
 				    die("Error");
 				}
 				
-				// Überprüfen, ob die Antwort leer ist
+				// answer no content?
 				
 				if (empty($_GET['input'])) {
 				    
 				} else
 				if (empty($data)) {
 				} else {
-				    // Den Eintrag mit "Hbf" oder "Hauptbahnhof" im Namen auswählen, falls vorhanden
+				    // prioriese hbf / hauptbahnhof entries
 				    $selectedStation = null;
 				    foreach ($data as $station) {
 				        if (strpos($station['name'], 'Hbf') !== false || strpos($station['name'], 'Hauptbahnhof') !== false) {
@@ -118,7 +117,7 @@
 				        }
 				    }
 				
-				    // Wenn kein passender Eintrag gefunden wurde, den ersten Eintrag verwenden
+				    // if not show first entry
 				    if ($selectedStation === null) {
 				        $selectedStation = reset($data);
 				    }
@@ -141,7 +140,7 @@
 		
 			}
 				
-				// cURL schließen
+				// cURL close
 				curl_close($ch);
 			?>
 	
