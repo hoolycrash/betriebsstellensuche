@@ -32,3 +32,5 @@ Upload `code` to your sever and use `extension` to render the Extension in your 
 
 ## Follow me:
 [![linkedin](https://img.shields.io/badge/twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/SBahnFahrer)
+
+[☕ Buy me a coffe](https://www.buymeacoffee.com/felixnietzold)
