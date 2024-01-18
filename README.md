@@ -7,6 +7,8 @@ Betriebsstellensuche is an extension / add-on for various browsers such as Micro
 ## Installation
 Betriebsstellensuche will soon be published to more extension stores...
 
+[Microsoft Edge Add-on Store](https://microsoftedge.microsoft.com/addons/detail/klcjnpkfnkaekemddcnmjjpjklnodpec)
+
 [Mozilla Add-on Store](https://addons.mozilla.org/de/firefox/addon/betriebsstellen/)
 
 ### Manual Installation
