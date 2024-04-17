@@ -11,72 +11,75 @@
 </head>
 <body>
 	
-	   <span class="title">Betriebsstellensuche</span>
-	
-	    <form method="GET" action="index.php">
-	        <input type="text" name="input" autocomplete="off" id="search" value="<?php echo($_GET['input']) ?>" placeholder="RIL100, Name..." required>
-	    </form>
-	
-	    <?php
-	    // search csv
-	    function searchCSV($input) {
-        $csvFile = 'data.csv';
+	<div class="topbar">
+		<a href="#" class="tab active">RIL100-Code</a>&nbsp;&nbsp;&nbsp;<a href="name.php?input=<?php echo($_GET['input']) ?>" class="tab">Name</a>
+	</div>
 
-        if (($handle = fopen($csvFile, 'r')) !== FALSE) {
-            // look for matching ril100 code
-            while (($row = fgetcsv($handle, 1000, ';')) !== FALSE) {
-                if ($row[1] == $input) {
-                    fclose($handle);
-                    return $row;
-                }
-            }
-
-            // if no matching ril100 code search all
-            fseek($handle, 0); 
-            while (($row = fgetcsv($handle, 1000, ';')) !== FALSE) {
-                // Überprüfe, ob der Suchbegriff im RL100-Code oder RL100-Langname enthalten ist
-                if (stripos($row[1], $input) !== FALSE || stripos($row[2], $input) !== FALSE) {
-                    fclose($handle);
-                    return $row;
-                }
-            }
-            fclose($handle);
-        }
-
-        return NULL; 
-    }
+	<div class="secondbar">
+		<form method="GET" action="index.php">
+			<input type="text" name="input" autocomplete="off" id="search" value="<?php echo($_GET['input']) ?>" placeholder="RIL100-Code..." required>
+		</form>
+	</div>
 	
-	    // is there input
-	    if (isset($_GET['input'])) {
-	        $userInput = trim($_GET['input']);
-	        if (!empty($userInput)) {
-	            $result = searchCSV($userInput);
+		<?php
+		// search csv
+		function searchCSV($input) {
+		$csvFile = 'data.csv';
+
+		if (($handle = fopen($csvFile, 'r')) !== FALSE) {
+			// look for matching ril100 code
+			while (($row = fgetcsv($handle, 1000, ';')) !== FALSE) {
+				if ($row[1] == $input) {
+					fclose($handle);
+					return $row;
+ 				}
+			}
+
+			// if no matching ril100 code search all
+			fseek($handle, 0); 
+			while (($row = fgetcsv($handle, 1000, ';')) !== FALSE) {
+				// is search input matching with ril100 code or ril100 Langname?
+				if (strcasecmp($row[1], $input) === 0) {
+
+					fclose($handle);
+					return $row;
+				}
+			}
+			fclose($handle);
+		}
+
+		return NULL; 
+	}
 	
-	           
-	            if ($result !== NULL) {
-	                //output
-	                echo '
-					<div class="box">
-						<b>RIL100-Code:</b> ' . $result[1] . '<hr>
-						<b>Langname:</b> ' . $result[2] . '<hr>
-						<b>Typ:</b> ' . $result[4] . '<hr>
-						<b>Niederlassung:</b> ' . $result[10] . '
-					</div>';
+		// is there input
+		if (isset($_GET['input'])) {
+			$userInput = trim($_GET['input']);
+			if (!empty($userInput)) {
+				$result = searchCSV($userInput);
+				if ($result !== NULL) {
+					//output
+					 echo '
+						<div class="box">
+                       		<b>RIL100-Code:</b> ' . htmlspecialchars($result[1], ENT_QUOTES, 'UTF-8') . '<hr>
+							<b>RIL100-Langname:</b> ' . htmlspecialchars($result[2], ENT_QUOTES, 'UTF-8') . '<hr>
+							<b>Typ</b>: ' . htmlspecialchars($result[5], ENT_QUOTES, 'UTF-8') . '<hr>
+							<b>Betriebszustand</b>: <span class="zustand-' . htmlspecialchars($result[6], ENT_QUOTES, 'UTF-8') . '">' . htmlspecialchars($result[6], ENT_QUOTES, 'UTF-8') . '</span><hr>
+                        	<b>Regionalbereich</b>: '. htmlspecialchars($result[10], ENT_QUOTES, 'UTF-8') .'
+                        </div>
+						';
 	                
-					
-					
-	            } else {
-	                echo '
-				<div class="box">
-					Keine Ergbenisse
-				</div>';
-	            }
-	        } else {
-	            echo '<p>Bitte geben Sie einen Suchbegriff ein.</p>';
-	        }
-	    }
-	
-		
+				} else {
+					echo '
+					<div class="box">
+						<p>Keine Ergbenisse</p>
+						<p><i>Versuche die Suche nach Stationsname</i></p>
+					</div>';
+				}
+			} else {
+				echo '<p>Bitte geben Sie einen Suchbegriff ein.</p>';
+			}
+		}
+
 		// look up hafas station
 				
 				$stationinput = $result[3];
@@ -103,7 +106,10 @@
 				
 				// answer no content?
 				
-				if (empty($_GET['input'])) {
+				if ($result === 1) {
+                echo 'Mehrere';
+                
+            } else if (empty($_GET['input'])) {
 				    
 				} else
 				if (empty($data)) {
@@ -143,6 +149,11 @@
 				// cURL close
 				curl_close($ch);
 			?>
+			
+			<br>
+			
+			<a href="https://www.buymeacoffee.com/felixnietzold" target="_blank">Buy me a coffe ☕</a><br>
+			<a href="https://github.com/hoolycrash/betriebsstellensuche" target="_blank">Github 😺</a>
 	
 </body>
 </html>

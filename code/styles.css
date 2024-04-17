@@ -3,20 +3,40 @@
 body {
 	margin: 10px;
 	font-family: 'Roboto', sans-serif;
+	margin: 0px;
+	overflow-x: hidden;
 }
 
+.zustand-Betrieb {
+	color: #1c6f1c;
+}
+
+.zustand-Planung {
+	color: #0b80af;
+}
+
+.topbar {
+	width: 100%;
+	padding: 11px;
+	background-color: #efefef;
+}
+
+.secondbar {
+	width: 100%;
+	padding: 11px;
+	background-color: #f7f7f7;
+}
 
 input {
-	box-sizing: border-box;
-	width: 100%;
+	width: calc(100% - 57px);
 	height: 30px;
 	background: transparent url(./assets/search.svg) no-repeat 200px;
     background-position: left;
     background-size: 30px;
 	border: none;
-	background-color: #fff;
-	padding-left: 40px;
+	padding-left: 35px;
 	border: 1px solid #000;
+	border-radius: 6px;
 }
 
 input:focus {
@@ -36,11 +56,43 @@ hr {
 	line-height: 50px;
 }
 
+.tab {
+	text-decoration: none;
+	line-height: 2;
+	color: #000;
+}
+
+.active {
+	font-weight: bold;
+	position: relative;
+}
+
+.active::after {
+	content: "";
+    position: absolute;
+    top: 24px;
+    left: 50%;
+    width: 20px;
+    height: 4px;
+    background-color: #e60116;
+	border-radius: 100px;
+    margin-left: -7.5px;
+}
+
 .box {
-	
-	background-color: #e3e3e3;
+	background-color: #ebebeb;
 	padding: 7px;
-	margin-top: 5px;
+	margin: 7px;
+	margin-top: 8px;
+	border-radius: 6px;
+	
+	
+}	
+
+.link-blank {
+	text-decoration: none;
+	color: inherit;
+	
 }
 
 ::-webkit-scrollbar {
